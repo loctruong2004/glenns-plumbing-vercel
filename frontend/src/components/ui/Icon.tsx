@@ -1,0 +1,103 @@
+import {
+  AlertTriangle,
+  ArrowRight,
+  BadgeCheck,
+  CalendarCheck,
+  Check,
+  ChevronDown,
+  ChevronRight,
+  ClipboardList,
+  Clock,
+  Droplets,
+  FileCheck,
+  Flame,
+  Gauge,
+  GitBranch,
+  GitMerge,
+  HandCoins,
+  Home,
+  Mail,
+  MapPin,
+  Menu,
+  Minus,
+  Phone,
+  PhoneCall,
+  Plus,
+  Power,
+  Receipt,
+  Repeat,
+  ShieldAlert,
+  ShieldCheck,
+  ShowerHead,
+  Snowflake,
+  Sparkles,
+  Star,
+  Tag,
+  Thermometer,
+  Waves,
+  Wind,
+  Wrench,
+  X,
+  Zap,
+  type LucideIcon,
+} from "lucide-react";
+
+// The 40-icon registry from 01-design-tokens / ICONS in lib/data.ts —
+// kebab-case names as used by the data module and prototypes (R-11: render
+// lucide-react directly, no lucide.createIcons()).
+const REGISTRY: Record<string, LucideIcon> = {
+  star: Star,
+  "shield-check": ShieldCheck,
+  clock: Clock,
+  "phone-call": PhoneCall,
+  phone: Phone,
+  "chevron-down": ChevronDown,
+  "chevron-right": ChevronRight,
+  "arrow-right": ArrowRight,
+  menu: Menu,
+  x: X,
+  "map-pin": MapPin,
+  mail: Mail,
+  check: Check,
+  wrench: Wrench,
+  droplets: Droplets,
+  waves: Waves,
+  flame: Flame,
+  thermometer: Thermometer,
+  gauge: Gauge,
+  receipt: Receipt,
+  "badge-check": BadgeCheck,
+  "clipboard-list": ClipboardList,
+  sparkles: Sparkles,
+  home: Home,
+  tag: Tag,
+  "alert-triangle": AlertTriangle,
+  "hand-coins": HandCoins,
+  plus: Plus,
+  minus: Minus,
+  "shower-head": ShowerHead,
+  snowflake: Snowflake,
+  power: Power,
+  "git-merge": GitMerge,
+  wind: Wind,
+  "git-branch": GitBranch,
+  repeat: Repeat,
+  zap: Zap,
+  "shield-alert": ShieldAlert,
+  "file-check": FileCheck,
+  "calendar-check": CalendarCheck,
+};
+
+export function Icon({
+  name,
+  className = "w-6 h-6",
+  strokeWidth = 2,
+}: {
+  name: string;
+  className?: string;
+  strokeWidth?: number;
+}) {
+  const Glyph = REGISTRY[name];
+  if (!Glyph) return null;
+  return <Glyph className={className} strokeWidth={strokeWidth} aria-hidden="true" />;
+}

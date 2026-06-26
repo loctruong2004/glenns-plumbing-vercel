@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+frontend/dist/
+backend/dist/
+
+# Secrets — KHÔNG commit
+.env
+.env.*
+!.env.example
+!.env.production.example
+# Cấu hình frontend production không chứa bí mật (chỉ trỏ API cùng origin)
+!frontend/.env.production
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
