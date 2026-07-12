@@ -23,13 +23,10 @@ app.use("/api", leadRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/admin", adminRouter);
 
-// Chỉ lắng nghe cổng khi chạy local (dev / VPS).
-// Trên Vercel, app được export như một serverless function (xem api/index.ts)
-// nên KHÔNG gọi app.listen() (biến VERCEL được Vercel tự set).
-if (!process.env.VERCEL) {
-  app.listen(PORT, () => {
-    console.log(`Backend chạy tại http://localhost:${PORT}`);
-  });
-}
+// Backend chạy như 1 service độc lập (dev / VPS / Vercel Services) — luôn lắng nghe cổng.
+// Trên Vercel, biến PORT được service runtime tự set và proxy /api, /health về đây (xem vercel.json).
+app.listen(PORT, () => {
+  console.log(`Backend chạy tại http://localhost:${PORT}`);
+});
 
 export default app;

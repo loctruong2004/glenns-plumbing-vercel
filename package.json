@@ -2,7 +2,7 @@
   "name": "glenns-plumbing",
   "version": "1.0.0",
   "private": true,
-  "description": "1 project Vercel duy nhất: frontend (Vite) + backend (Express serverless) chung 1 domain.",
+  "description": "2 service Vercel độc lập: frontend (Vite) + backend (Express), rewrite chung 1 domain.",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
