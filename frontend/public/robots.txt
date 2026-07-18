@@ -1,0 +1,7 @@
+# Glenn's Plumbing — https://glennph.com
+# All crawlers (incl. AI: GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot) honor these rules.
+User-agent: *
+Allow: /
+Disallow: /admin
+
+Sitemap: https://glennph.com/sitemap.xml
