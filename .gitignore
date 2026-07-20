@@ -10,7 +10,6 @@ backend/dist/
 .env
 .env.*
 !.env.example
-!.env.production.example
 # Cấu hình frontend production không chứa bí mật (chỉ trỏ API cùng origin)
 !frontend/.env.production
 
