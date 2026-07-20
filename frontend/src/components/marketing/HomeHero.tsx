@@ -8,7 +8,7 @@ export function HomeHero() {
       {/* Photo background + dark overlay */}
       <div
         className="absolute inset-0 hero-photo"
-        style={{ backgroundImage: "url('/images/hero-plumber.jpg')" }}
+        style={{ backgroundImage: "url('/images/hero-pipe-leak-repair.jpg')" }}
       ></div>
       <div
         className="absolute inset-0"
