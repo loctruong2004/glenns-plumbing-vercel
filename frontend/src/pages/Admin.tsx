@@ -420,67 +420,89 @@ function WorkersModal({ token, onClose }: { token: string; onClose: () => void }
   };
 
   const inp =
-    "w-full rounded-xl border border-gray-200 px-3.5 py-2.5 text-[15px] text-gray-800 outline-none " +
+    "w-full rounded-xl border border-gray-200 px-4 py-3 text-[16px] text-gray-800 outline-none " +
     "focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-colors";
+  const lbl = "block text-[14px] font-bold text-gray-700 mb-1.5";
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center px-4 py-8"
+      className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6"
       style={{ background: "rgba(0,0,0,0.45)" }}
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-full flex flex-col">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-full flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100">
-          <h2 className="font-bold text-[18px] text-[#1e3a5f]">Workers</h2>
+        <div className="flex items-center justify-between px-9 py-6 border-b border-gray-100">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-[#1e3a5f] flex items-center justify-center text-white">
+              <UsersIcon />
+            </div>
+            <div>
+              <h2 className="font-bold text-[22px] text-[#1e3a5f] leading-none">Workers</h2>
+              <p className="text-[13px] text-gray-400 mt-1">{workers.length} worker{workers.length === 1 ? "" : "s"}</p>
+            </div>
+          </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors text-[22px] leading-none"
+            className="w-9 h-9 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors text-[24px] leading-none"
           >
             ×
           </button>
         </div>
 
-        <div className="overflow-y-auto px-8 py-6 space-y-6">
+        <div className="overflow-y-auto px-9 py-7 space-y-7">
           {/* Add / Edit form */}
-          <form onSubmit={submit} className="bg-slate-50 rounded-2xl p-5 border border-gray-100">
-            <div className="text-[13px] font-bold uppercase tracking-wide text-gray-400 mb-3">
-              {editingId ? "Edit worker" : "Add a worker"}
+          <form onSubmit={submit} className="bg-slate-50 rounded-2xl p-6 border border-gray-100">
+            <div className="text-[15px] font-bold text-[#1e3a5f] mb-4 flex items-center gap-2">
+              <span className={`inline-block w-2 h-2 rounded-full ${editingId ? "bg-amber-500" : "bg-emerald-500"}`} />
+              {editingId ? "Edit worker" : "Add a new worker"}
             </div>
-            <div className="grid sm:grid-cols-2 gap-3">
-              <input
-                value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
-                placeholder="Name *" className={inp}
-              />
-              <input
-                value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                placeholder="Phone *" type="tel" className={inp}
-              />
-              <input
-                value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
-                placeholder="Email (optional)" type="email" className={inp}
-              />
-              <input
-                value={form.job} onChange={(e) => setForm({ ...form, job: e.target.value })}
-                placeholder="Job / trade (optional)" className={inp}
-              />
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label className={lbl}>Name <span className="text-blue-500">*</span></label>
+                <input
+                  value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  placeholder="e.g. John Smith" className={inp}
+                />
+              </div>
+              <div>
+                <label className={lbl}>Phone <span className="text-blue-500">*</span></label>
+                <input
+                  value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                  placeholder="e.g. (646) 555-1234" type="tel" className={inp}
+                />
+              </div>
+              <div>
+                <label className={lbl}>Email <span className="font-medium text-gray-400">(optional)</span></label>
+                <input
+                  value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  placeholder="e.g. john@gmail.com" type="email" className={inp}
+                />
+              </div>
+              <div>
+                <label className={lbl}>Job / trade <span className="font-medium text-gray-400">(optional)</span></label>
+                <input
+                  value={form.job} onChange={(e) => setForm({ ...form, job: e.target.value })}
+                  placeholder="e.g. Drain specialist" className={inp}
+                />
+              </div>
             </div>
             {error && (
-              <div className="mt-3 rounded-xl bg-red-50 border border-red-200 px-4 py-2.5 text-[14px] text-red-600 font-medium">
+              <div className="mt-4 rounded-xl bg-red-50 border border-red-200 px-4 py-3 text-[15px] text-red-600 font-medium">
                 {error}
               </div>
             )}
-            <div className="mt-4 flex gap-2">
+            <div className="mt-5 flex gap-3">
               <button
                 type="submit" disabled={busy}
-                className="px-5 py-2.5 rounded-xl bg-[#2563eb] text-white font-bold text-[15px] hover:bg-[#1d4ed8] transition-colors disabled:opacity-60"
+                className="px-7 py-3 rounded-xl bg-[#2563eb] text-white font-bold text-[16px] hover:bg-[#1d4ed8] transition-colors disabled:opacity-60 shadow-sm"
               >
-                {busy ? "Saving…" : editingId ? "Save changes" : "Add worker"}
+                {busy ? "Saving…" : editingId ? "Save changes" : "+ Add worker"}
               </button>
               {editingId && (
                 <button
                   type="button" onClick={resetForm}
-                  className="px-5 py-2.5 rounded-xl border border-gray-200 text-[15px] font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+                  className="px-7 py-3 rounded-xl border border-gray-200 text-[16px] font-medium text-gray-600 hover:bg-gray-50 transition-colors"
                 >
                   Cancel
                 </button>
@@ -490,50 +512,55 @@ function WorkersModal({ token, onClose }: { token: string; onClose: () => void }
 
           {/* List */}
           {loading ? (
-            <div className="py-10 text-center text-[15px] text-gray-400">Loading workers…</div>
+            <div className="py-14 text-center text-[16px] text-gray-400">Loading workers…</div>
           ) : workers.length === 0 ? (
-            <div className="py-10 text-center text-[15px] text-gray-400">
-              No workers yet. Add your first one above.
+            <div className="py-14 text-center">
+              <p className="text-[17px] font-semibold text-gray-500">No workers yet</p>
+              <p className="text-[14px] text-gray-400 mt-1">Add your first one using the form above.</p>
             </div>
           ) : (
             <div className="overflow-x-auto border border-gray-100 rounded-2xl">
-              <table className="w-full text-[15px]">
+              <table className="w-full text-[16px]">
                 <thead>
                   <tr className="bg-slate-50 border-b border-gray-100">
-                    {["Name", "Phone", "Email", "Job", ""].map((h, i) => (
-                      <th key={i} className="text-left px-4 py-3 text-[12px] font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap">
+                    {["Name", "Phone", "Email", "Job", "Actions"].map((h, i) => (
+                      <th key={i} className={`px-5 py-4 text-[13px] font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap ${i === 4 ? "text-right" : "text-left"}`}>
                         {h}
                       </th>
                     ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-50">
+                <tbody className="divide-y divide-gray-100">
                   {workers.map((w) => (
                     <tr key={w.id} className="hover:bg-slate-50/70 transition-colors">
-                      <td className="px-4 py-3 font-semibold text-[#1e3a5f] whitespace-nowrap">{w.name}</td>
-                      <td className="px-4 py-3 whitespace-nowrap">
-                        <a href={`tel:${w.phone}`} className="text-[#2563eb] hover:underline">{w.phone}</a>
+                      <td className="px-5 py-4 font-semibold text-[#1e3a5f] whitespace-nowrap">{w.name}</td>
+                      <td className="px-5 py-4 whitespace-nowrap">
+                        <a href={`tel:${w.phone}`} className="text-[#2563eb] font-medium hover:underline">{w.phone}</a>
                       </td>
-                      <td className="px-4 py-3 text-gray-500 max-w-[180px] truncate" title={w.email ?? ""}>
+                      <td className="px-5 py-4 text-gray-500 max-w-[220px] truncate" title={w.email ?? ""}>
                         {w.email || <span className="text-gray-300">—</span>}
                       </td>
-                      <td className="px-4 py-3 text-gray-500 whitespace-nowrap">
-                        {w.job || <span className="text-gray-300">—</span>}
+                      <td className="px-5 py-4 text-gray-600 whitespace-nowrap">
+                        {w.job
+                          ? <span className="inline-block bg-slate-100 text-slate-700 rounded-lg px-2.5 py-1 text-[14px] font-semibold">{w.job}</span>
+                          : <span className="text-gray-300">—</span>}
                       </td>
-                      <td className="px-4 py-3 whitespace-nowrap text-right">
-                        <button
-                          onClick={() => startEdit(w)}
-                          className="text-[14px] font-semibold text-gray-500 hover:text-[#2563eb] transition-colors mr-3"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => remove(w)}
-                          disabled={busy}
-                          className="text-[14px] font-semibold text-gray-400 hover:text-red-500 transition-colors disabled:opacity-50"
-                        >
-                          Delete
-                        </button>
+                      <td className="px-5 py-4 whitespace-nowrap text-right">
+                        <div className="inline-flex gap-2">
+                          <button
+                            onClick={() => startEdit(w)}
+                            className="px-3.5 py-2 rounded-lg border border-gray-200 text-[14px] font-semibold text-gray-600 hover:border-blue-400 hover:text-[#2563eb] transition-colors"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => remove(w)}
+                            disabled={busy}
+                            className="px-3.5 py-2 rounded-lg border border-gray-200 text-[14px] font-semibold text-gray-500 hover:border-red-300 hover:text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -874,55 +901,55 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
       )}
 
       {/* ── Header ── */}
-      <header className="bg-[#1e3a5f] text-white px-6 py-4 flex items-center justify-between shadow-lg sticky top-0 z-30">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-white/15 flex items-center justify-center">
+      <header className="bg-[#1e3a5f] text-white px-8 py-5 flex items-center justify-between shadow-lg sticky top-0 z-30">
+        <div className="flex items-center gap-3.5">
+          <div className="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center">
             <ShieldIcon />
           </div>
           <div>
-            <div className="font-bold text-[18px]">Glenn's Plumbing</div>
+            <div className="font-bold text-[20px] leading-tight">Glenn's Plumbing</div>
             <div className="text-[14px] text-white/55">Admin Dashboard</div>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           <button
             onClick={() => setShowWorkers(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-[15px] font-medium transition-colors"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-[#1e3a5f] text-[16px] font-bold hover:bg-white/90 transition-colors shadow-sm"
           >
             <UsersIcon /> Workers
           </button>
           <button
             onClick={() => setShowSettings(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-[15px] font-medium transition-colors"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-[16px] font-medium transition-colors"
           >
             <GearIcon /> Settings
           </button>
           <button
             onClick={onLogout}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-[15px] font-medium transition-colors"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-[16px] font-medium transition-colors"
           >
             <LogoutIcon /> Sign Out
           </button>
         </div>
       </header>
 
-      <div className="max-w-screen-xl mx-auto px-6 py-8">
+      <div className="max-w-[1680px] mx-auto px-8 py-10">
 
         {/* ── Stats Cards ── */}
-        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-7 gap-3 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4 mb-8">
           {/* All */}
           <button
             onClick={() => setFilter("ALL")}
-            className={`rounded-2xl border p-4 text-left transition-all ${
+            className={`rounded-2xl border p-6 text-left transition-all ${
               filter === "ALL"
                 ? "bg-[#1e3a5f] text-white border-[#1e3a5f] shadow-lg"
-                : "bg-white border-gray-200 hover:border-gray-300 hover:shadow-sm"
+                : "bg-white border-gray-200 hover:border-gray-300 hover:shadow-md"
             }`}
           >
-            <div className={`text-[32px] font-bold leading-none ${filter === "ALL" ? "text-white" : "text-[#1e3a5f]"}`}>
+            <div className={`text-[42px] font-bold leading-none ${filter === "ALL" ? "text-white" : "text-[#1e3a5f]"}`}>
               {leads.length}
             </div>
-            <div className={`text-[12px] font-semibold mt-1.5 uppercase tracking-wide ${filter === "ALL" ? "text-white/65" : "text-gray-400"}`}>
+            <div className={`text-[13px] font-semibold mt-2.5 uppercase tracking-wide ${filter === "ALL" ? "text-white/65" : "text-gray-400"}`}>
               All Leads
             </div>
           </button>
@@ -935,19 +962,19 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
               <button
                 key={s}
                 onClick={() => setFilter(s)}
-                className={`rounded-2xl border p-4 text-left transition-all ${
+                className={`rounded-2xl border p-6 text-left transition-all ${
                   active
                     ? "bg-[#1e3a5f] text-white border-[#1e3a5f] shadow-lg"
-                    : "bg-white border-gray-200 hover:border-gray-300 hover:shadow-sm"
+                    : "bg-white border-gray-200 hover:border-gray-300 hover:shadow-md"
                 }`}
               >
-                <div className="flex items-center gap-1.5 mb-1">
-                  <span className={`w-2 h-2 rounded-full ${active ? "bg-white" : m.dot}`} />
+                <div className="flex items-center gap-1.5 mb-2">
+                  <span className={`w-2.5 h-2.5 rounded-full ${active ? "bg-white" : m.dot}`} />
                 </div>
-                <div className={`text-[32px] font-bold leading-none ${active ? "text-white" : "text-[#1e3a5f]"}`}>
+                <div className={`text-[42px] font-bold leading-none ${active ? "text-white" : "text-[#1e3a5f]"}`}>
                   {counts[s] ?? 0}
                 </div>
-                <div className={`text-[12px] font-semibold mt-1.5 uppercase tracking-wide ${active ? "text-white/65" : "text-gray-400"}`}>
+                <div className={`text-[13px] font-semibold mt-2.5 uppercase tracking-wide ${active ? "text-white/65" : "text-gray-400"}`}>
                   {m.label}
                 </div>
               </button>
@@ -1009,16 +1036,16 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
 
         {/* ── Leads Table ── */}
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-            <h2 className="font-bold text-[17px] text-[#1e3a5f]">
+          <div className="px-7 py-5 border-b border-gray-100 flex items-center justify-between">
+            <h2 className="font-bold text-[21px] text-[#1e3a5f]">
               Leads
               {filter !== "ALL" && (
-                <span className={`ml-2 text-[14px] rounded-full border px-2.5 py-0.5 font-semibold ${STATUS_META[filter]?.cls}`}>
+                <span className={`ml-2.5 text-[15px] rounded-full border px-3 py-1 font-semibold ${STATUS_META[filter]?.cls}`}>
                   {STATUS_META[filter]?.label}
                 </span>
               )}
               {(fromDate || toDate) && (
-                <span className="ml-2 text-[14px] text-gray-400 font-normal">
+                <span className="ml-2.5 text-[15px] text-gray-400 font-normal">
                   {fromDate && `from ${fromDate}`} {toDate && `to ${toDate}`}
                 </span>
               )}
@@ -1039,28 +1066,28 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
             <div className="py-24 text-center text-gray-400 text-[15px]">No leads found for the selected filters.</div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-[15px]">
+              <table className="w-full text-[16px]">
                 <thead>
                   <tr className="bg-slate-50 border-b border-gray-100">
-                    {["#", "Customer", "Contact", "Address", "Service", "Source", "Status", "Date", ""].map((h) => (
-                      <th key={h} className="text-left px-5 py-3.5 text-[13px] font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap">
+                    {["#", "Customer", "Contact", "Address", "Service", "Source", "Status", "Date", "Action"].map((h) => (
+                      <th key={h} className={`px-6 py-4 text-[13px] font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap ${h === "Action" ? "text-right" : "text-left"}`}>
                         {h}
                       </th>
                     ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-50">
+                <tbody className="divide-y divide-gray-100">
                   {shown.map((lead, i) => (
                     <tr key={lead.id} className="hover:bg-slate-50/70 transition-colors group">
                       {/* # */}
-                      <td className="px-5 py-4 text-gray-300 text-[14px] font-mono">{i + 1}</td>
+                      <td className="px-6 py-5 text-gray-300 text-[15px] font-mono">{i + 1}</td>
 
                       {/* Customer */}
-                      <td className="px-5 py-4 min-w-[160px]">
-                        <div className="font-semibold text-[#1e3a5f]">{lead.name}</div>
+                      <td className="px-6 py-5 min-w-[180px]">
+                        <div className="font-semibold text-[17px] text-[#1e3a5f]">{lead.name}</div>
                         {lead.message && (
                           <div
-                            className="text-[13px] text-gray-400 mt-0.5 max-w-[200px] truncate"
+                            className="text-[14px] text-gray-400 mt-1 max-w-[240px] truncate"
                             title={lead.message}
                           >
                             {lead.message}
@@ -1069,76 +1096,76 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
                       </td>
 
                       {/* Contact */}
-                      <td className="px-5 py-4 min-w-[140px]">
-                        <a href={`tel:${lead.phone}`} className="font-semibold text-[#2563eb] hover:underline">
+                      <td className="px-6 py-5 min-w-[150px]">
+                        <a href={`tel:${lead.phone}`} className="font-semibold text-[16px] text-[#2563eb] hover:underline">
                           {lead.phone}
                         </a>
                         {lead.email && (
-                          <div className="text-[13px] text-gray-400 mt-0.5 max-w-[170px] truncate" title={lead.email}>
+                          <div className="text-[14px] text-gray-400 mt-1 max-w-[190px] truncate" title={lead.email}>
                             {lead.email}
                           </div>
                         )}
                       </td>
 
                       {/* Address */}
-                      <td className="px-5 py-4 text-gray-500 max-w-[180px]">
+                      <td className="px-6 py-5 text-gray-500 max-w-[200px]">
                         {lead.address
                           ? <span className="truncate block" title={lead.address}>{lead.address}</span>
                           : <span className="text-gray-200">—</span>}
                       </td>
 
                       {/* Service */}
-                      <td className="px-5 py-4 min-w-[120px]">
-                        <span className="inline-block bg-slate-100 text-slate-700 rounded-lg px-2.5 py-1 text-[14px] font-semibold">
+                      <td className="px-6 py-5 min-w-[130px]">
+                        <span className="inline-block bg-slate-100 text-slate-700 rounded-lg px-3 py-1.5 text-[15px] font-semibold">
                           {lead.service}
                         </span>
                       </td>
 
                       {/* Source */}
-                      <td className="px-5 py-4 text-gray-400 text-[14px] uppercase tracking-wide">
+                      <td className="px-6 py-5 text-gray-400 text-[15px] uppercase tracking-wide">
                         {lead.source}
                       </td>
 
                       {/* Status — select with arrow */}
-                      <td className="px-5 py-4">
+                      <td className="px-6 py-5">
                         <div className="relative inline-block">
                           <select
                             value={lead.status}
                             onChange={(e) => changeStatus(lead.id, e.target.value)}
                             disabled={updating === lead.id}
-                            className={`appearance-none pr-7 text-[14px] font-semibold rounded-lg border px-3 py-1.5 outline-none cursor-pointer disabled:opacity-50 transition-colors ${STATUS_META[lead.status]?.cls ?? ""}`}
+                            className={`appearance-none pr-9 text-[15px] font-semibold rounded-lg border px-4 py-2.5 outline-none cursor-pointer disabled:opacity-50 transition-colors ${STATUS_META[lead.status]?.cls ?? ""}`}
                           >
                             {STATUSES.map((s) => (
                               <option key={s} value={s}>{STATUS_META[s].label}</option>
                             ))}
                           </select>
-                          <span className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none opacity-60">
-                            <ChevronDown cls="w-3.5 h-3.5" />
+                          <span className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none opacity-60">
+                            <ChevronDown cls="w-4 h-4" />
                           </span>
                           {updating === lead.id && (
-                            <span className="absolute -right-5 top-1/2 -translate-y-1/2">
-                              <span className="w-3 h-3 border-2 border-blue-400 border-t-transparent rounded-full animate-spin inline-block" />
+                            <span className="absolute -right-6 top-1/2 -translate-y-1/2">
+                              <span className="w-3.5 h-3.5 border-2 border-blue-400 border-t-transparent rounded-full animate-spin inline-block" />
                             </span>
                           )}
                         </div>
                       </td>
 
                       {/* Date */}
-                      <td className="px-5 py-4 text-gray-400 text-[14px] whitespace-nowrap">
+                      <td className="px-6 py-5 text-gray-400 text-[15px] whitespace-nowrap">
                         {fmt(lead.createdAt)}
                       </td>
 
                       {/* Dispatch to worker */}
-                      <td className="px-5 py-4 whitespace-nowrap">
+                      <td className="px-6 py-5 whitespace-nowrap text-right">
                         <button
                           onClick={() => setDispatchLead(lead)}
                           title="Send this lead to a worker (email + SMS)"
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1e3a5f] text-white text-[13px] font-semibold hover:bg-[#16304f] transition-colors"
+                          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1e3a5f] text-white text-[15px] font-bold hover:bg-[#16304f] transition-colors shadow-sm"
                         >
-                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
                           </svg>
-                          Send
+                          Send to worker
                         </button>
                       </td>
                     </tr>
