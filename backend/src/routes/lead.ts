@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { z } from "zod";
-import { pool } from "../db";
+import { pool, query } from "../db";
 import { sendLeadEmails } from "../lib/mailer";
 import { sendLeadSms } from "../lib/sms";
 
@@ -64,6 +64,28 @@ router.post("/lead", async (req: Request, res: Response) => {
     const serviceSlug = source.startsWith("service:") ? source.slice(8) : null;
     const sourceEnum =
       source === "home" ? "HOME" : source === "pricing" ? "PRICING" : "SERVICE";
+
+    // Chống spam: mỗi số điện thoại và mỗi email tối đa 10 lần gửi / 30 ngày.
+    // Đếm cùng lúc theo phone và email trong 1 truy vấn (email rỗng => không tính).
+    const RATE_LIMIT = 10;
+    const emailKey = email || null;
+    const rate = await query(
+      `select
+         count(*) filter (where phone = $1)                          as phone_count,
+         count(*) filter (where email is not null and email = $2)    as email_count
+       from leads
+       where "createdAt" > now() - interval '30 days'`,
+      [phone, emailKey]
+    );
+    const phoneCount = Number(rate.rows[0].phone_count);
+    const emailCount = Number(rate.rows[0].email_count);
+    if (phoneCount >= RATE_LIMIT || emailCount >= RATE_LIMIT) {
+      return res.status(429).json({
+        ok: false,
+        error:
+          "You've reached the limit of requests for this month. Please call us at (646) 963-2616 and we'll help you right away.",
+      });
+    }
 
     // Transaction: insert lead + sự kiện trạng thái ban đầu (atomic).
     // id / status / createdAt do DB tự điền (default gen_random_uuid()/'NEW'/now()).
