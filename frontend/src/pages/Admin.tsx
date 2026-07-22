@@ -432,7 +432,7 @@ function WorkersModal({ token, onClose }: { token: string; onClose: () => void }
     >
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-full flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-9 py-6 border-b border-gray-100">
+        <div className="flex items-center justify-between px-5 sm:px-9 py-5 sm:py-6 border-b border-gray-100">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-[#1e3a5f] flex items-center justify-center text-white">
               <UsersIcon />
@@ -450,9 +450,9 @@ function WorkersModal({ token, onClose }: { token: string; onClose: () => void }
           </button>
         </div>
 
-        <div className="overflow-y-auto px-9 py-7 space-y-7">
+        <div className="overflow-y-auto px-5 sm:px-9 py-6 sm:py-7 space-y-6 sm:space-y-7">
           {/* Add / Edit form */}
-          <form onSubmit={submit} className="bg-slate-50 rounded-2xl p-6 border border-gray-100">
+          <form onSubmit={submit} className="bg-slate-50 rounded-2xl p-4 sm:p-6 border border-gray-100">
             <div className="text-[15px] font-bold text-[#1e3a5f] mb-4 flex items-center gap-2">
               <span className={`inline-block w-2 h-2 rounded-full ${editingId ? "bg-amber-500" : "bg-emerald-500"}`} />
               {editingId ? "Edit worker" : "Add a new worker"}
@@ -669,7 +669,7 @@ function DispatchModal({
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-full flex flex-col">
-        <div className="flex items-center justify-between px-7 py-5 border-b border-gray-100">
+        <div className="flex items-center justify-between px-5 sm:px-7 py-5 border-b border-gray-100">
           <div>
             <h2 className="font-bold text-[18px] text-[#1e3a5f]">Send to worker</h2>
             <p className="text-[13px] text-gray-400 mt-0.5">
@@ -684,7 +684,7 @@ function DispatchModal({
           </button>
         </div>
 
-        <div className="overflow-y-auto px-7 py-6">
+        <div className="overflow-y-auto px-5 sm:px-7 py-6">
           {loading ? (
             <div className="py-10 text-center text-[15px] text-gray-400">Loading workers…</div>
           ) : result ? (
@@ -901,52 +901,55 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
       )}
 
       {/* ── Header ── */}
-      <header className="bg-[#1e3a5f] text-white px-8 py-5 flex items-center justify-between shadow-lg sticky top-0 z-30">
-        <div className="flex items-center gap-3.5">
-          <div className="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center">
+      <header className="bg-[#1e3a5f] text-white px-4 sm:px-8 py-4 sm:py-5 flex items-center justify-between gap-3 shadow-lg sticky top-0 z-30">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
             <ShieldIcon />
           </div>
-          <div>
-            <div className="font-bold text-[20px] leading-tight">Glenn's Plumbing</div>
-            <div className="text-[14px] text-white/55">Admin Dashboard</div>
+          <div className="min-w-0">
+            <div className="font-bold text-[17px] sm:text-[20px] leading-tight truncate">Glenn's Plumbing</div>
+            <div className="text-[13px] sm:text-[14px] text-white/55">Admin Dashboard</div>
           </div>
         </div>
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           <button
             onClick={() => setShowWorkers(true)}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-[#1e3a5f] text-[16px] font-bold hover:bg-white/90 transition-colors shadow-sm"
+            title="Workers"
+            className="flex items-center gap-2 px-3 sm:px-5 py-2.5 rounded-xl bg-white text-[#1e3a5f] text-[16px] font-bold hover:bg-white/90 transition-colors shadow-sm"
           >
-            <UsersIcon /> Workers
+            <UsersIcon /> <span className="hidden sm:inline">Workers</span>
           </button>
           <button
             onClick={() => setShowSettings(true)}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-[16px] font-medium transition-colors"
+            title="Settings"
+            className="flex items-center gap-2 px-3 sm:px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-[16px] font-medium transition-colors"
           >
-            <GearIcon /> Settings
+            <GearIcon /> <span className="hidden sm:inline">Settings</span>
           </button>
           <button
             onClick={onLogout}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-[16px] font-medium transition-colors"
+            title="Sign Out"
+            className="flex items-center gap-2 px-3 sm:px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-[16px] font-medium transition-colors"
           >
-            <LogoutIcon /> Sign Out
+            <LogoutIcon /> <span className="hidden sm:inline">Sign Out</span>
           </button>
         </div>
       </header>
 
-      <div className="max-w-[1680px] mx-auto px-8 py-10">
+      <div className="max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
 
         {/* ── Stats Cards ── */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4 mb-6 sm:mb-8">
           {/* All */}
           <button
             onClick={() => setFilter("ALL")}
-            className={`rounded-2xl border p-6 text-left transition-all ${
+            className={`rounded-2xl border p-4 sm:p-6 text-left transition-all ${
               filter === "ALL"
                 ? "bg-[#1e3a5f] text-white border-[#1e3a5f] shadow-lg"
                 : "bg-white border-gray-200 hover:border-gray-300 hover:shadow-md"
             }`}
           >
-            <div className={`text-[42px] font-bold leading-none ${filter === "ALL" ? "text-white" : "text-[#1e3a5f]"}`}>
+            <div className={`text-[34px] sm:text-[42px] font-bold leading-none ${filter === "ALL" ? "text-white" : "text-[#1e3a5f]"}`}>
               {leads.length}
             </div>
             <div className={`text-[13px] font-semibold mt-2.5 uppercase tracking-wide ${filter === "ALL" ? "text-white/65" : "text-gray-400"}`}>
@@ -962,7 +965,7 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
               <button
                 key={s}
                 onClick={() => setFilter(s)}
-                className={`rounded-2xl border p-6 text-left transition-all ${
+                className={`rounded-2xl border p-4 sm:p-6 text-left transition-all ${
                   active
                     ? "bg-[#1e3a5f] text-white border-[#1e3a5f] shadow-lg"
                     : "bg-white border-gray-200 hover:border-gray-300 hover:shadow-md"
@@ -971,7 +974,7 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
                 <div className="flex items-center gap-1.5 mb-2">
                   <span className={`w-2.5 h-2.5 rounded-full ${active ? "bg-white" : m.dot}`} />
                 </div>
-                <div className={`text-[42px] font-bold leading-none ${active ? "text-white" : "text-[#1e3a5f]"}`}>
+                <div className={`text-[34px] sm:text-[42px] font-bold leading-none ${active ? "text-white" : "text-[#1e3a5f]"}`}>
                   {counts[s] ?? 0}
                 </div>
                 <div className={`text-[13px] font-semibold mt-2.5 uppercase tracking-wide ${active ? "text-white/65" : "text-gray-400"}`}>
@@ -985,18 +988,18 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
         {/* ── Filters & Actions Bar ── */}
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm px-5 py-4 mb-4 flex flex-wrap items-center gap-3">
           {/* Date range */}
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-2">
             <CalendarIcon />
             <span className="text-[15px] font-semibold text-gray-500">From</span>
             <input
               type="date" value={fromDate} onChange={(e) => setFromDate(e.target.value)}
-              className={dateInp}
+              className={dateInp + " flex-1 min-w-[130px] sm:flex-none"}
             />
             <span className="text-[15px] font-semibold text-gray-500">To</span>
             <input
               type="date" value={toDate} onChange={(e) => setToDate(e.target.value)}
               min={fromDate}
-              className={dateInp}
+              className={dateInp + " flex-1 min-w-[130px] sm:flex-none"}
             />
             {(fromDate || toDate) && (
               <button
@@ -1009,7 +1012,7 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
           </div>
 
           {/* Spacer */}
-          <div className="flex-1" />
+          <div className="hidden sm:block flex-1" />
 
           {/* Result count */}
           <span className="text-[15px] text-gray-400">
@@ -1036,8 +1039,8 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
 
         {/* ── Leads Table ── */}
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-          <div className="px-7 py-5 border-b border-gray-100 flex items-center justify-between">
-            <h2 className="font-bold text-[21px] text-[#1e3a5f]">
+          <div className="px-4 sm:px-7 py-4 sm:py-5 border-b border-gray-100 flex items-center justify-between">
+            <h2 className="font-bold text-[18px] sm:text-[21px] text-[#1e3a5f]">
               Leads
               {filter !== "ALL" && (
                 <span className={`ml-2.5 text-[15px] rounded-full border px-3 py-1 font-semibold ${STATUS_META[filter]?.cls}`}>
@@ -1065,6 +1068,9 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
           ) : shown.length === 0 ? (
             <div className="py-24 text-center text-gray-400 text-[15px]">No leads found for the selected filters.</div>
           ) : (
+            <>
+            {/* Desktop table (md and up) */}
+            <div className="hidden md:block">
             <table className="w-full table-fixed text-[15px]">
               <colgroup>
                 <col className="w-[22%]" />
@@ -1171,6 +1177,71 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
                 ))}
               </tbody>
             </table>
+            </div>
+
+            {/* Mobile cards (below md) */}
+            <div className="md:hidden divide-y divide-gray-100">
+              {shown.map((lead) => (
+                <div key={lead.id} className="p-4">
+                  {/* Top row: name/source/date + status */}
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="font-semibold text-[16px] text-[#1e3a5f] break-words">{lead.name}</div>
+                      <div className="text-[11.5px] text-gray-400 uppercase tracking-wide mt-0.5">
+                        {lead.source} · {fmtDate(lead.createdAt)}{" "}
+                        {new Date(lead.createdAt).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}
+                      </div>
+                    </div>
+                    <div className="relative shrink-0">
+                      <select
+                        value={lead.status}
+                        onChange={(e) => changeStatus(lead.id, e.target.value)}
+                        disabled={updating === lead.id}
+                        className={`appearance-none pr-8 text-[13px] font-semibold rounded-lg border px-3 py-2 outline-none cursor-pointer disabled:opacity-50 transition-colors ${STATUS_META[lead.status]?.cls ?? ""}`}
+                      >
+                        {STATUSES.map((s) => (
+                          <option key={s} value={s}>{STATUS_META[s].label}</option>
+                        ))}
+                      </select>
+                      <span className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none opacity-60">
+                        <ChevronDown cls="w-3.5 h-3.5" />
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Details */}
+                  <div className="mt-3 space-y-1.5 text-[14px]">
+                    <a href={`tel:${lead.phone}`} className="block font-semibold text-[15px] text-[#2563eb] break-words">
+                      {lead.phone}
+                    </a>
+                    {lead.email && <div className="text-gray-500 break-words">{lead.email}</div>}
+                    {lead.address && <div className="text-gray-500 break-words">{lead.address}</div>}
+                    <div>
+                      <span className="inline-block bg-slate-100 text-slate-700 rounded-lg px-2.5 py-1 text-[13px] font-semibold">
+                        {lead.service}
+                      </span>
+                    </div>
+                    {lead.message && (
+                      <div className="text-gray-400 line-clamp-2 break-words" title={lead.message}>
+                        {lead.message}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Action */}
+                  <button
+                    onClick={() => setDispatchLead(lead)}
+                    className="mt-3 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#1e3a5f] text-white text-[15px] font-bold hover:bg-[#16304f] transition-colors shadow-sm"
+                  >
+                    <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                    </svg>
+                    Send to worker
+                  </button>
+                </div>
+              ))}
+            </div>
+            </>
           )}
         </div>
       </div>
