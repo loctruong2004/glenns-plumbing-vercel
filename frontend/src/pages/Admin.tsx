@@ -1065,114 +1065,112 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
           ) : shown.length === 0 ? (
             <div className="py-24 text-center text-gray-400 text-[15px]">No leads found for the selected filters.</div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-[16px]">
-                <thead>
-                  <tr className="bg-slate-50 border-b border-gray-100">
-                    {["#", "Customer", "Contact", "Address", "Service", "Source", "Status", "Date", "Action"].map((h) => (
-                      <th key={h} className={`px-6 py-4 text-[13px] font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap ${h === "Action" ? "text-right" : "text-left"}`}>
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  {shown.map((lead, i) => (
-                    <tr key={lead.id} className="hover:bg-slate-50/70 transition-colors group">
-                      {/* # */}
-                      <td className="px-6 py-5 text-gray-300 text-[15px] font-mono">{i + 1}</td>
-
-                      {/* Customer */}
-                      <td className="px-6 py-5 min-w-[180px]">
-                        <div className="font-semibold text-[17px] text-[#1e3a5f]">{lead.name}</div>
-                        {lead.message && (
-                          <div
-                            className="text-[14px] text-gray-400 mt-1 max-w-[240px] truncate"
-                            title={lead.message}
-                          >
-                            {lead.message}
-                          </div>
-                        )}
-                      </td>
-
-                      {/* Contact */}
-                      <td className="px-6 py-5 min-w-[150px]">
-                        <a href={`tel:${lead.phone}`} className="font-semibold text-[16px] text-[#2563eb] hover:underline">
-                          {lead.phone}
-                        </a>
-                        {lead.email && (
-                          <div className="text-[14px] text-gray-400 mt-1 max-w-[190px] truncate" title={lead.email}>
-                            {lead.email}
-                          </div>
-                        )}
-                      </td>
-
-                      {/* Address */}
-                      <td className="px-6 py-5 text-gray-500 max-w-[200px]">
-                        {lead.address
-                          ? <span className="truncate block" title={lead.address}>{lead.address}</span>
-                          : <span className="text-gray-200">—</span>}
-                      </td>
-
-                      {/* Service */}
-                      <td className="px-6 py-5 min-w-[130px]">
-                        <span className="inline-block bg-slate-100 text-slate-700 rounded-lg px-3 py-1.5 text-[15px] font-semibold">
-                          {lead.service}
-                        </span>
-                      </td>
-
-                      {/* Source */}
-                      <td className="px-6 py-5 text-gray-400 text-[15px] uppercase tracking-wide">
-                        {lead.source}
-                      </td>
-
-                      {/* Status — select with arrow */}
-                      <td className="px-6 py-5">
-                        <div className="relative inline-block">
-                          <select
-                            value={lead.status}
-                            onChange={(e) => changeStatus(lead.id, e.target.value)}
-                            disabled={updating === lead.id}
-                            className={`appearance-none pr-9 text-[15px] font-semibold rounded-lg border px-4 py-2.5 outline-none cursor-pointer disabled:opacity-50 transition-colors ${STATUS_META[lead.status]?.cls ?? ""}`}
-                          >
-                            {STATUSES.map((s) => (
-                              <option key={s} value={s}>{STATUS_META[s].label}</option>
-                            ))}
-                          </select>
-                          <span className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none opacity-60">
-                            <ChevronDown cls="w-4 h-4" />
-                          </span>
-                          {updating === lead.id && (
-                            <span className="absolute -right-6 top-1/2 -translate-y-1/2">
-                              <span className="w-3.5 h-3.5 border-2 border-blue-400 border-t-transparent rounded-full animate-spin inline-block" />
-                            </span>
-                          )}
-                        </div>
-                      </td>
-
-                      {/* Date */}
-                      <td className="px-6 py-5 text-gray-400 text-[15px] whitespace-nowrap">
-                        {fmt(lead.createdAt)}
-                      </td>
-
-                      {/* Dispatch to worker */}
-                      <td className="px-6 py-5 whitespace-nowrap text-right">
-                        <button
-                          onClick={() => setDispatchLead(lead)}
-                          title="Send this lead to a worker (email + SMS)"
-                          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1e3a5f] text-white text-[15px] font-bold hover:bg-[#16304f] transition-colors shadow-sm"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
-                          </svg>
-                          Send to worker
-                        </button>
-                      </td>
-                    </tr>
+            <table className="w-full table-fixed text-[15px]">
+              <colgroup>
+                <col className="w-[22%]" />
+                <col className="w-[16%]" />
+                <col className="w-[16%]" />
+                <col className="w-[13%]" />
+                <col className="w-[12%]" />
+                <col className="w-[9%]" />
+                <col className="w-[12%]" />
+              </colgroup>
+              <thead>
+                <tr className="bg-slate-50 border-b border-gray-100">
+                  {["Customer", "Contact", "Address", "Service", "Status", "Date", "Action"].map((h) => (
+                    <th key={h} className={`px-4 py-4 text-[12.5px] font-bold text-gray-400 uppercase tracking-wider ${h === "Action" ? "text-right" : "text-left"}`}>
+                      {h}
+                    </th>
                   ))}
-                </tbody>
-              </table>
-            </div>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {shown.map((lead) => (
+                  <tr key={lead.id} className="hover:bg-slate-50/70 transition-colors group align-top">
+                    {/* Customer (+ source + message) */}
+                    <td className="px-4 py-4">
+                      <div className="font-semibold text-[16px] text-[#1e3a5f] break-words">{lead.name}</div>
+                      <div className="text-[12px] text-gray-400 uppercase tracking-wide mt-0.5">{lead.source}</div>
+                      {lead.message && (
+                        <div className="text-[13.5px] text-gray-400 mt-1 line-clamp-2 break-words" title={lead.message}>
+                          {lead.message}
+                        </div>
+                      )}
+                    </td>
+
+                    {/* Contact */}
+                    <td className="px-4 py-4">
+                      <a href={`tel:${lead.phone}`} className="font-semibold text-[15px] text-[#2563eb] hover:underline break-words">
+                        {lead.phone}
+                      </a>
+                      {lead.email && (
+                        <div className="text-[13.5px] text-gray-400 mt-1 break-words" title={lead.email}>
+                          {lead.email}
+                        </div>
+                      )}
+                    </td>
+
+                    {/* Address */}
+                    <td className="px-4 py-4 text-[14px] text-gray-500 break-words">
+                      {lead.address || <span className="text-gray-200">—</span>}
+                    </td>
+
+                    {/* Service */}
+                    <td className="px-4 py-4">
+                      <span className="inline-block bg-slate-100 text-slate-700 rounded-lg px-2.5 py-1 text-[13.5px] font-semibold break-words">
+                        {lead.service}
+                      </span>
+                    </td>
+
+                    {/* Status — select with arrow */}
+                    <td className="px-4 py-4">
+                      <div className="relative">
+                        <select
+                          value={lead.status}
+                          onChange={(e) => changeStatus(lead.id, e.target.value)}
+                          disabled={updating === lead.id}
+                          className={`w-full appearance-none pr-8 text-[14px] font-semibold rounded-lg border px-3 py-2 outline-none cursor-pointer disabled:opacity-50 transition-colors ${STATUS_META[lead.status]?.cls ?? ""}`}
+                        >
+                          {STATUSES.map((s) => (
+                            <option key={s} value={s}>{STATUS_META[s].label}</option>
+                          ))}
+                        </select>
+                        <span className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none opacity-60">
+                          <ChevronDown cls="w-4 h-4" />
+                        </span>
+                        {updating === lead.id && (
+                          <span className="absolute right-1 -top-4">
+                            <span className="w-3 h-3 border-2 border-blue-400 border-t-transparent rounded-full animate-spin inline-block" />
+                          </span>
+                        )}
+                      </div>
+                    </td>
+
+                    {/* Date — stacked to save width */}
+                    <td className="px-4 py-4 text-gray-500 text-[13.5px]">
+                      <div>{fmtDate(lead.createdAt)}</div>
+                      <div className="text-gray-400">
+                        {new Date(lead.createdAt).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}
+                      </div>
+                    </td>
+
+                    {/* Dispatch to worker */}
+                    <td className="px-4 py-4 text-right">
+                      <button
+                        onClick={() => setDispatchLead(lead)}
+                        title="Send this lead to a worker (email + SMS)"
+                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#1e3a5f] text-white text-[14px] font-bold hover:bg-[#16304f] transition-colors shadow-sm"
+                      >
+                        <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                        </svg>
+                        Send
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           )}
         </div>
       </div>
